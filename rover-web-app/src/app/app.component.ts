@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient, private roverService: RoverService) { }
 
   ngOnInit() {
-    this.createNewMatrix();
+    this.createRoverGrid();
     this.prevDimension = this.dimension;
     this.prevInitialPosition = this.initialPosition;
   }
@@ -52,48 +52,14 @@ export class AppComponent implements OnInit {
     }
   }
 
-  handleFileInput(file: FileList) {
-    this.resetPage();
-    this.fileToUpload = file.item(0);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const file = event.target.result;
-      const allLines = file.toString().split(/\r\n|\n/);
-      this.validateFile(allLines);
-    };
-    reader.onerror = (event) => {
-      this.invalidFileUpload = true;
-    };
-    reader.readAsText(this.fileToUpload);
-  }
-
-  validateFile(fileLines: string[]) {
-    if(fileLines.length < 3) {
-      this.invalidFileUpload = true;
-    } else {
-      const inputDimension = fileLines[0].replace(/ /g, '');
-      const inputInitialPosition = fileLines[1].replace(/ /g, '');
-      const inputCommands = fileLines[2].replace(/ /g, '');
-      if(inputDimension.length > 0 && inputInitialPosition.length > 0 && inputCommands.length > 0) {
-        this.dimension = Number(inputDimension[0]);
-        this.initialPosition = inputInitialPosition;
-        this.commands = inputCommands;
-        this.createNewMatrix();
-      } else {
-        this.invalidFileUpload = true;
-      }
-    }
-    this.resetFileInput();
-  }
-
   onDimensionChange() {
-    this.createNewMatrix();
+    this.createRoverGrid();
     this.resetPage();
   }
 
   resetRover() {
     this.resetPage();
-    this.createNewMatrix();
+    this.createRoverGrid();
     this.resetFileInput()
   }
 
@@ -126,17 +92,11 @@ export class AppComponent implements OnInit {
     this.newPositionFlag = false;
   }
 
-  createNewMatrix() {
+  createRoverGrid() {
     if (this.validateDimension()) {
       if (this.prevDimension != this.dimension || this.prevInitialPosition != this.initialPosition) {
         this.prevDimension = this.dimension
-        this.cells = []
-        for (let i = 0; i < this.dimension; ++i) {
-          this.cells[i] = []
-          for (let j = 0; j < this.dimension; ++j) {
-            this.cells[i][j] = '';
-          }
-        }
+        this.cells = this.roverService.initializeRoverGrid(this.dimension);
       }
     } else {
       this.cells = []
@@ -196,7 +156,7 @@ export class AppComponent implements OnInit {
     this.invalidInitialPositionFlag = false;
     this.invalidInitialRoverCoordinates = false;
     if (this.prevInitialPosition != this.initialPosition) {
-      this.createNewMatrix();
+      this.createRoverGrid();
     }
   }
 
@@ -225,5 +185,39 @@ export class AppComponent implements OnInit {
   validateCommands() {
     this.invalidCommandsFlag = this.commands ? !this.commandsCheck.test(this.commands) : true;
     return !this.invalidCommandsFlag;
+  }
+
+  handleFileInput(file: FileList) {
+    this.resetPage();
+    this.fileToUpload = file.item(0);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const file = event.target.result;
+      const allLines = file.toString().split(/\r\n|\n/);
+      this.validateFile(allLines);
+    };
+    reader.onerror = (event) => {
+      this.invalidFileUpload = true;
+    };
+    reader.readAsText(this.fileToUpload);
+  }
+
+  validateFile(fileLines: string[]) {
+    if(fileLines.length < 3) {
+      this.invalidFileUpload = true;
+    } else {
+      const inputDimension = fileLines[0].replace(/ /g, '');
+      const inputInitialPosition = fileLines[1].replace(/ /g, '');
+      const inputCommands = fileLines[2].replace(/ /g, '');
+      if(inputDimension.length > 0 && inputInitialPosition.length > 0 && inputCommands.length > 0) {
+        this.dimension = Number(inputDimension[0]);
+        this.initialPosition = inputInitialPosition;
+        this.commands = inputCommands;
+        this.createRoverGrid();
+      } else {
+        this.invalidFileUpload = true;
+      }
+    }
+    this.resetFileInput();
   }
 }
