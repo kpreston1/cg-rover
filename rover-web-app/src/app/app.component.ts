@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {RoverService} from "./rover.service";
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,11 @@ export class AppComponent implements OnInit {
   invalidFileUpload = false;
   fileToUpload: File = null;
 
-  constructor(private http: HttpClient) { }
+  private dimensionCheck = /[2-9]/;
+  private initialPositionCheck = /[0-9]{2}[NSEWnsew]/;
+  private commandsCheck = /^[rRlLmM]+$/gm;
+
+  constructor(private http: HttpClient, private roverService: RoverService) { }
 
   ngOnInit() {
     this.createNewMatrix();
@@ -116,6 +121,11 @@ export class AppComponent implements OnInit {
     this.invalidFileUpload = false;
   }
 
+  resetCommandFlags() {
+    this.invalidCommandsFlag = false;
+    this.newPositionFlag = false;
+  }
+
   createNewMatrix() {
     if (this.validateDimension()) {
       if (this.prevDimension != this.dimension || this.prevInitialPosition != this.initialPosition) {
@@ -133,17 +143,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  resetCommandFlags() {
-    this.invalidCommandsFlag = false;
-    this.newPositionFlag = false;
-  }
-
   getNewPosition(){
     this.invalidRoverCoordinates = false;
-    let headers = new HttpHeaders();
-    headers.set('Access-Control-Allow-Origin', '*');
-    headers.set('content-type', 'application/json');
-    this.http.get(`http://localhost:9000/v1/rover/location/${this.initialPosition}/commands/${this.commands}`, {headers}).subscribe((data: any[])=>{
+    this.roverService.getNewPosition(this.initialPosition, this.commands).subscribe((data: any[])=>{
       this.handleRoverLocationResponse(data['xCoordinate'], data['yCoordinate'], data['direction']);
     })
   }
@@ -199,9 +201,8 @@ export class AppComponent implements OnInit {
   }
 
   validateDimension() {
-    let dimensionCheck = /[2-9]/;
     this.invalidDimensionFlag = false;
-    if(!this.dimension || !dimensionCheck.test(this.dimension.toString())) {
+    if(!this.dimension || !this.dimensionCheck.test(this.dimension.toString())) {
       this.invalidDimensionFlag = true;
       this.dimension = null;
     }
@@ -209,8 +210,7 @@ export class AppComponent implements OnInit {
   }
 
   validateInitialFormatPosition() {
-    let initialPositionCheck = /[0-9]{2}[NSEWnsew]/;
-    this.invalidInitialPositionFlag = this.initialPosition ? !initialPositionCheck.test(this.initialPosition) : true;
+    this.invalidInitialPositionFlag = this.initialPosition ? !this.initialPositionCheck.test(this.initialPosition) : true;
     return !this.invalidInitialPositionFlag;
   }
 
@@ -223,8 +223,7 @@ export class AppComponent implements OnInit {
   }
 
   validateCommands() {
-    let commandsCheck = /^[rRlLmM]+$/gm;
-    this.invalidCommandsFlag = this.commands ? !commandsCheck.test(this.commands) : true;
+    this.invalidCommandsFlag = this.commands ? !this.commandsCheck.test(this.commands) : true;
     return !this.invalidCommandsFlag;
   }
 }
