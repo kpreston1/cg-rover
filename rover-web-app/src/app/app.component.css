@@ -1,0 +1,29 @@
+.mars-background {
+  height: 34cm;
+  background-size:cover;
+  width:auto;
+  background-image:url('https://image.freepik.com/free-vector/mars-landscape-background-with-flat-design_23-2147967537.jpg');
+  background-position: 50% 50%;
+}
+
+.button-margin {
+  margin: 10px
+}
+
+.row-medium-margin {
+  margin: 30px
+}
+
+.row-small-margin {
+  margin: 10px
+}
+
+.container-large-margin {
+  margin-top: 70px;
+  margin-bottom: 30px
+}
+
+form label{
+  font-weight:bold;
+}
+

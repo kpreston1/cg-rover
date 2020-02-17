@@ -1,0 +1,15 @@
+<ng-container>
+  <div *ngIf="direction == ''"></div>
+  <div *ngIf="direction == 'NORTH'">
+    <img src="https://pbs.twimg.com/profile_images/898550622428905473/t6KXRKST_400x400.jpg" width="84" height="84" class="d-inline-block align-top" alt="">
+  </div>
+  <div *ngIf="direction == 'EAST'">
+    <img src="https://pbs.twimg.com/profile_images/898550622428905473/t6KXRKST_400x400.jpg" width="84" height="84" class="d-inline-block align-top rotateImage90" alt="">
+  </div>
+  <div *ngIf="direction == 'SOUTH'">
+    <img src="https://pbs.twimg.com/profile_images/898550622428905473/t6KXRKST_400x400.jpg" width="84" height="84" class="d-inline-block align-top rotateImage180" alt="">
+  </div>
+  <div *ngIf="direction == 'WEST'">
+    <img src="https://pbs.twimg.com/profile_images/898550622428905473/t6KXRKST_400x400.jpg" width="84" height="84" class="d-inline-block align-top rotateImage270" alt="">
+  </div>
+</ng-container>

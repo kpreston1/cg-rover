@@ -1,0 +1,4 @@
+->  /v1/rover                         v1.rover.RoverRouter
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
