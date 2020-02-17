@@ -18,7 +18,7 @@
               <div *ngIf="invalidDimensionFlag" class="alert alert-danger">
                 <strong>Error!</strong> Rover grid input must be a number between 2-9.
               </div>
-              <label for="initialPosition">Initial Position</label>
+              <label for="initialPosition">Initial Position (Example: 00N) </label>
               <input [(ngModel)]="initialPosition" type="text" name="initialPosition" class="form-control" maxlength="3"
                      id="initialPosition" placeholder="Enter Initial Position" (ngModelChange)="validateNewPosition()" >
               <div *ngIf="invalidInitialPositionFlag" class="alert alert-danger">
@@ -30,7 +30,7 @@
               <div *ngIf="newPositionFlag" class="alert alert-success">
                 <strong>Update!</strong> The rover has moved to a new position.
               </div>
-              <label for="commands">Commands</label>
+              <label for="commands">Commands (Example: LMRM)</label>
               <input [(ngModel)]="commands" type="text" name="commands" class="form-control"
                      id="commands" placeholder="Enter Commands" (ngModelChange)="resetCommandFlags()">
               <div *ngIf="invalidCommandsFlag" class="alert alert-danger">
