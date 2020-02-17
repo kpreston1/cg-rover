@@ -13,7 +13,7 @@ class RoverController @Inject()(val controllerComponents: ControllerComponents, 
   val COMMAND_VERIFICATION: Regex = "([rRlLmM]+)".r
   val POSITION_VERIFICATION: Regex = "([0-9]{2}[NSEW])".r
 
-  def caculateRoverLocation(currentLocation: String, commands: String) = Action { request =>
+  def calculateRoverLocation(currentLocation: String, commands: String) = Action { request =>
     if (inputFormatCheck(currentLocation, commands))
       Ok(Json.toJson(roverService.calculatePosition(currentLocation, commands))).withHeaders("Access-Control-Allow-Origin" -> "*")
     else

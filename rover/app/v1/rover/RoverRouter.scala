@@ -9,6 +9,6 @@ class RoverRouter @Inject()(controller: RoverController) extends SimpleRouter {
 
   override def routes: Routes = {
     case GET(p"/location/$location/commands/$commands") =>
-      controller.caculateRoverLocation(location, commands)
+      controller.calculateRoverLocation(location, commands)
   }
 }
