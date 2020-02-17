@@ -38,7 +38,6 @@ export class AppComponent implements OnInit {
 
   onSubmit() {
     this.validateInitialFormatPosition();
-    console.log("validate commands " + this.validateCommands());
     this.validateInitialPositionBounds();
     if (!this.dimension) {
       this.invalidDimensionFlag = true;
@@ -55,7 +54,6 @@ export class AppComponent implements OnInit {
     reader.onload = (event) => {
       const file = event.target.result;
       const allLines = file.toString().split(/\r\n|\n/);
-      console.log(allLines);
       this.validateFile(allLines);
     };
     reader.onerror = (event) => {
@@ -68,7 +66,6 @@ export class AppComponent implements OnInit {
     if(fileLines.length < 3) {
       this.invalidFileUpload = true;
     } else {
-      console.log("fileslines" + fileLines);
       const inputDimension = fileLines[0].replace(/ /g, '');
       const inputInitialPosition = fileLines[1].replace(/ /g, '');
       const inputCommands = fileLines[2].replace(/ /g, '');
@@ -85,7 +82,6 @@ export class AppComponent implements OnInit {
   }
 
   onDimensionChange() {
-    console.log(this.dimension);
     this.createNewMatrix();
     this.resetPage();
   }
@@ -142,7 +138,6 @@ export class AppComponent implements OnInit {
     this.newPositionFlag = false;
   }
 
-  //Logic should be moved to a service file
   getNewPosition(){
     this.invalidRoverCoordinates = false;
     let headers = new HttpHeaders();
@@ -229,7 +224,6 @@ export class AppComponent implements OnInit {
 
   validateCommands() {
     let commandsCheck = /^[rRlLmM]+$/gm;
-    console.log(this.commands)
     this.invalidCommandsFlag = this.commands ? !commandsCheck.test(this.commands) : true;
     return !this.invalidCommandsFlag;
   }
