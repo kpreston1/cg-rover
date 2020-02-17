@@ -2,11 +2,8 @@ package v1.rover
 
 import models.RoverCoordinateResponse
 import models.CardinalDirections._
-import org.slf4j.LoggerFactory
 
 class RoverService {
-
-  val logger = LoggerFactory.getLogger(classOf[RoverService])
 
   def calculatePosition(currentLocation: String, commands: String): RoverCoordinateResponse = {
     val (x,y,direction): (Int, Int, CardinalDirection) = runCommands(getStartingPosition(currentLocation), commands)
