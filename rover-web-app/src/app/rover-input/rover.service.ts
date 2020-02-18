@@ -13,7 +13,7 @@ export class RoverService {
     let headers = new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('content-type', 'application/json');
-    return this.http.get(`${this.roverUrl.toUpperCase()}/location/${initialPosition.toUpperCase()}/commands/${commands}`, {headers})
+    return this.http.get(`${this.roverUrl}/location/${initialPosition.toUpperCase()}/commands/${commands.toUpperCase()}`, {headers})
   }
 
   initializeRoverGrid(dimension: number) {
