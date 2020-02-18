@@ -10,7 +10,7 @@ First clone the cg-rover repo.
 	* Once java is downloaded use brew to install Scala
       * brew install scala
 	* Once Scala is install go to the root directory of rover and spin up a local instance of the BE.
-		* sbt serve
+		* sbt run
 	* The Rover BE should now be running on localhost:9000
 * Link: https://www.scala-lang.org/download/
 
