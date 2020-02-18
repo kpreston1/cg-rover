@@ -1,0 +1,42 @@
+<div>
+  <form>
+    <div class="form-group">
+      <label for="dim">Graph Dimenesions (only supports up to 9x9)</label>
+      <input [(ngModel)]="dimension" type="text" name="dim" class="form-control " maxlength="1"
+             id="dim" placeholder="Enter Single Dimension" (ngModelChange)="onDimensionChange()">
+      <div *ngIf="invalidDimensionFlag" class="alert alert-danger">
+        <strong>Error!</strong> Rover grid input must be a number between 2-9.
+      </div>
+      <label for="initialPosition">Initial Position (Example: 00N) </label>
+      <input [(ngModel)]="initialPosition" type="text" name="initialPosition" class="form-control" maxlength="3"
+             id="initialPosition" placeholder="Enter Initial Position" (ngModelChange)="validateNewPosition()" >
+      <div *ngIf="invalidInitialPositionFlag" class="alert alert-danger">
+        <strong>Error!</strong> Initial position format is XYD, where D is the direction. Example: 11N
+      </div>
+      <div *ngIf="invalidInitialRoverCoordinates" class="alert alert-danger">
+        <strong>Error!</strong> Initial position is outside of rover grid bounds. Grid coordinates starts at (0,0).
+      </div>
+      <div *ngIf="newPositionFlag" class="alert alert-success">
+        <strong>Update!</strong> The rover has moved to a new position.
+      </div>
+      <label for="commands">Commands (Example: LMRM)</label>
+      <input [(ngModel)]="commands" type="text" name="commands" class="form-control"
+             id="commands" placeholder="Enter Commands" (ngModelChange)="resetCommandFlags()">
+      <div *ngIf="invalidCommandsFlag" class="alert alert-danger">
+        <strong>Error!</strong> Commands can only be a variation of L, R, and M. Example: LMRMM
+      </div>
+    </div>
+    <span><strong>OR</strong></span><br/>
+    <div class="rover-file-upload">
+      <input #roverFileInput type="file" class="rover-file-upload" id="customFile" (change)="handleFileInput($event.target.files)">
+    </div>
+    <div *ngIf="invalidFileUpload" class="alert alert-danger">
+      <strong>Error!</strong> Invalid file content.
+    </div>
+  </form>
+  <button class="btn btn-primary button-margin" (click)="onSubmit()">Get Position</button>
+  <button class="btn btn-secondary button-margin" (click)="resetRover()">New Rover</button>
+  <div *ngIf="invalidRoverCoordinates" class="alert alert-danger">
+    <strong>Error!</strong> Rover commands are outside of rover grid bounds.
+  </div>
+</div>
