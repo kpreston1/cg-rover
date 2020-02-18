@@ -1,11 +1,8 @@
 import {async, TestBed} from '@angular/core/testing';
 
 import { RoverService } from './rover.service';
-import {BrowserModule} from "@angular/platform-browser";
-import {AppRoutingModule} from "./app-routing.module";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AppComponent} from "./app.component";
+import {AppComponent} from "../app.component";
 
 describe('RoverService', () => {
   let service: RoverService;

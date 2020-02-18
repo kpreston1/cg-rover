@@ -6,11 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RoverGridComponent } from './rover-grid/rover-grid.component';
+import { RoverInputComponent } from './rover-input/rover-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoverGridComponent
+    RoverGridComponent,
+    RoverInputComponent
   ],
   imports: [
     BrowserModule,
